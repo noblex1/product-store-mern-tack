@@ -1,22 +1,20 @@
-// import dotenv
+import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-dotenv.config(); //Load environment variables from .env file
 
-//import mongoose library
-import mongoose from 'mongoose'
+dotenv.config();
 
-// server.js
-const express = require('express');        // Import Express
-const app = express();                     // Create Express app
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
 
-app.get('/', (req, res) => {              // Define route
-  res.json({ 
-    message: 'Welcome to our Ecommerce API!',
-    status: 'Server is running successfully'
-  });
-});
+    console.log(`✅ MongoDB connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.error(`❌ Database connection failed: ${error.message}`);
+    process.exit(1);
+  }
+};
 
-const PORT = 5000;                        // Define port
-app.listen(PORT, () => {                  // Start server
-  console.log(`🚀 Server running on port ${PORT}`);
-});
+export default connectDB;
