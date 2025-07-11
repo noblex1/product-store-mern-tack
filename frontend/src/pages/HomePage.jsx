@@ -1,8 +1,28 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { Rocket } from 'lucide-react'
 import ProductCard from '../components/ProductCard'
 
 function HomePage() {
+
+
+  // Functin that fetches all products from the database
+  async function getAllProducts(){
+    //Use the javascript fetch method
+    const response = await fetch("http://localhost:5000/api/products", {
+      method: "GET",
+      headers: {
+        "Content-Type": 'application/json'
+      },
+    })
+    if(response.ok){
+      console.log(response.json)
+    }
+    useEffect(() =>{
+      getAllProducts();
+
+    }, [])
+
+  }
   return (
     <div className=' h-screen m-0'>
       <div className=' w-[90%] mx-auto'>

@@ -119,12 +119,15 @@ import express from "express";
 import ProductModel from "./models/product.model.js";
 import connectDB from "./config/db.js";
 import productRouter from "./routes/products.routes.js";
+import cors from 'cors';
 
 // Get the express app instance
 const app = express();
 
 app.use(express.json()); // Middleware to parse JSON bodies
 app.use('/api/products', productRouter);
+
+app.use(crossOriginIsolated,("*"))
 
 // Create a get request handler for the root route
 app.get("/", (req, res) => {
