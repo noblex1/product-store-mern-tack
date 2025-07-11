@@ -3,7 +3,7 @@ import React from 'react'
 function CreatePage() {
   return (
     <div>
-      Create Page
+      Create Products page
     </div>
   )
 }
