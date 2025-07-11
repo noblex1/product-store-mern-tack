@@ -1,8 +1,10 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Rocket } from 'lucide-react'
 import ProductCard from '../components/ProductCard'
 
 function HomePage() {
+const [products, setProducts] = useState([]);
+console.log(products)
 
 
   // Functin that fetches all products from the database
@@ -14,15 +16,19 @@ function HomePage() {
         "Content-Type": 'application/json'
       },
     })
+     //check if response is ok
     if(response.ok){
-      console.log(response.json)
+      const data = await response.json();
+      console.log(data.data);
+      setProducts(data.data) 
     }
-    useEffect(() =>{
+  }
+
+     useEffect(() =>{
       getAllProducts();
 
     }, [])
 
-  }
   return (
     <div className=' h-screen m-0'>
       <div className=' w-[90%] mx-auto'>
