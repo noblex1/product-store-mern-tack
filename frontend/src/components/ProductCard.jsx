@@ -1,26 +1,54 @@
-import React from "react";
-import { Rocket, RocketIcon, PenBox, Trash2 } from "lucide-react";
+import { Key, PenBox, Trash2Icon } from 'lucide-react';
 
-function ProductCard() {
+
+function ProductCard({ key, product }) {
+  async function deleteProduct(id){
+    try {
+      const response = await fetch("http://localhost:5000/api/products${id}", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      if (response.ok) {
+        console.log("Product deleted successfully");
+      
+      }
+
+      const data = response.json();
+      return data.product
+    }
+    catch (error) {
+      console.error("Error deleting product:", error);
+    }
+
+  }
   return (
-    <div className="border bg-gray-950 rounded shadow-lg">
+   <> 
+    <div key={Key} className=" border border-gray-500 bg-gray-900 rounded shadow-lg ">
       <div>
         <img
-          src="https://images.unsplash.com/photo-1570034711549-beb1f4695b6e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDExfHx8ZW58MHx8fHx8"
-          alt="" className="overflow-hidden rounded-t w-full"
+          className="rounded overflow-hidden rounded-t w-full"
+          src={product?.imageUrl}
+          alt={product?.name}
         />
         <div className="p-2">
-          <h4>Iphone 15 Pro Max</h4>
-          <p>$799.99</p>
-          <div className="flex space-x-3">
-          <PenBox size={30} className="bg-blue-500 p-1 text-black rounded" />
-          <Trash2 size={30} className="bg-red-500 p-1 text-black rounded" />
+          <h4>{product?.name}</h4>
+          <p>${product?.price}</p>
+          <p>{product?.description}</p>
+          <div className="flex items-center space-x-2 mt-2">
+            <PenBox size={23} className="p-1 bg-blue-500 text-black rounded" />
+            <Trash2Icon
+              size={23}
+              className="p-1 bg-red-500 text-black rounded"
+              onClick={() => deleteProduct(product._id)}
+            />
+          </div>
         </div>
-        </div>
-       
       </div>
     </div>
+   </> 
   );
 }
 
-export default ProductCard;
+export default ProductCard
