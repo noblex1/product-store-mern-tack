@@ -7,7 +7,6 @@ function CreatePage() {
     name: "",
     price: "",
     stock: "",
-    description: "",
     imageUrl: "",
     description: "",
   });
@@ -23,9 +22,8 @@ function CreatePage() {
       description: newProduct.description,
     };
 
-    console.log("New Product Data:", serializedData);
     try {
-      //create the fetch method
+      // Create the fetch method
       const response = await fetch("http://localhost:5000/api/products", {
         method: "POST",
         headers: {
@@ -35,33 +33,38 @@ function CreatePage() {
       });
 
       if (response.ok) {
-        const data = response.json();
-        console.log("Product created successfully", data.product);
+        const data = await response.json(); 
+        console.log("Product created", data.product)
         navigate("/")
       }
     } catch (error) {
-      console.error("Error creating product:", error);
+      console.log("Product submission error", error);
     }
   };
+
   return (
-    <div className="w-full border h-screen">
-      <div className="border-2 p-6 max-w-xl mx-auto">
-        <h2 className="text-center font-bold mb-4 ">Create a new Product</h2>
-        <form onSubmit={submitProduct} action="" className=" dark:bg-gray-950">
-          <div className="w-full mb-3">
+    <div className="w-full h-screen">
+      <div className="p-6 max-w-xl mx-auto">
+        <h2 className="text-center font-bold">Create a new product</h2>
+
+        <form
+          onSubmit={submitProduct}
+          className="dark:bg-gray-950 p-4 rounded border border-gray-500/25 shadow-lg"
+        >
+          <div className="w-full mb-2">
             <input
               type="text"
               id="name"
+              placeholder="Enter product name"
               value={newProduct.name}
               onChange={(e) =>
                 setNewProduct({ ...newProduct, name: e.target.value })
               }
-              placeholder="Enter product Name"
-              className="w-full px-4 py-2 rounded border   border-gray-500/50"
+              className="border border-gray-500/25 w-full px-4 py-2 rounded"
             />
           </div>
 
-          <div className="w-full">
+          <div className="w-full mb-2">
             <input
               type="float"
               id="price"
@@ -70,25 +73,25 @@ function CreatePage() {
               onChange={(e) =>
                 setNewProduct({ ...newProduct, price: e.target.value })
               }
-              placeholder="Enter product Price"
-              className="border  border-gray-500/50 w-full px-4 py-2 rounded mb-3 outline-none cursor-pointer"
+              placeholder="Enter product price"
+              className="border border-gray-500/25 w-full px-4 py-2 rounded"
             />
           </div>
-          <div className="w-full">
+
+          <div className="w-full mb-2">
             <input
               type="url"
-              id="url"
-              min={0}
+              id="imageUrl"
               value={newProduct.imageUrl}
               onChange={(e) =>
                 setNewProduct({ ...newProduct, imageUrl: e.target.value })
               }
-              placeholder="Enter Image URL"
-              className="border  border-gray-500/50 w-full px-4 py-2 rounded mb-3 outline-none cursor-pointer"
+              placeholder="Enter product image url"
+              className="border border-gray-500/25 w-full px-4 py-2 rounded"
             />
           </div>
 
-          <div className="w-full">
+          <div className="w-full mb-2">
             <input
               type="number"
               id="stock"
@@ -97,25 +100,24 @@ function CreatePage() {
               onChange={(e) =>
                 setNewProduct({ ...newProduct, stock: e.target.value })
               }
-              placeholder="Enter product Stock"
-              className="border border-gray-500/50 w-full px-4 py-2 rounded mb-3 outline-none "
+              placeholder="Enter product stock"
+              className="border border-gray-500/25 w-full px-4 py-2 rounded"
             />
           </div>
 
           <textarea
-            name=""
-            id=""
-            placeholder="Enter product Description"
-            className="border border-gray-500/25 w-full outline-none py-2 px-4 "
-            rows={3}
+            className="w-full border border-gray-500/25 outline-none px-4 py-2 mb-2"
+            rows={5}
+            placeholder="Enter product description"
             value={newProduct.description}
             onChange={(e) =>
               setNewProduct({ ...newProduct, description: e.target.value })
             }
           ></textarea>
+
           <button
             type="submit"
-            className="bg-blue-500 text-white font-bold px-4 py-2 rounded mt-3 hover:bg-blue-800 cursor-pointer"
+            className="px-4 py-2 rounded shadow-lg bg-green-600 font-bold hover:bg-green-800 cursor-pointer"
           >
             Create Product
           </button>
