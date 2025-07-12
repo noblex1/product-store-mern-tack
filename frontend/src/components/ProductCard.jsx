@@ -10,13 +10,14 @@ function handleDeleteProduct(id){
   return (
       <div
         key={key}
-        className="border border-gray-500/25 bg-gray-950 rounded shadow-lg"
+        className="border border-gray-500/25
+         bg-gray-950 rounded shadow-lg w-full"
       >
         <div>
           <img
             src={product?.imageUrl}
             alt={product?.name}
-            className="overflow-hidden rounded-t w-full h-28"
+            className="overflow-hidden rounded-t w-full h-100 rounded"
           />
           <div className="p-1">
             <h4>{product?.name}</h4>
@@ -25,12 +26,12 @@ function handleDeleteProduct(id){
             <div className="flex space-x-2 mt-2">
               <PenBox
                 size={18}
-                className="p-1 bg-blue-400 text-black rounded"
+                className="p-1 mb-1 bg-blue-400 text-black rounded"
               />
 
                 <Trash2
                   size={18}
-                  className="p-1 bg-red-300 text-black rounded"
+                  className="p-1 mb-1 bg-red-300 text-black rounded"
                   onClick={() => handleDeleteProduct(product?._id)}
                 />
             </div>
