@@ -1,5 +1,4 @@
 import { Button } from "@radix-ui/themes";
-import React from "react";
 
 function ConfirmModal({ setShowModal, productId }) {
   async function deleteProduct(id) {
