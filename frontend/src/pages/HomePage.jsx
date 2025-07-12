@@ -8,7 +8,7 @@ function HomePage() {
   const [showModal, setShowModal] = useState(false);
   const [productId, setProductId] = useState(null);
 
-  // ✅ Fetch all products from backend
+  //  Fetch all products from backend
   async function getAllProducts() {
     try {
       const response = await fetch("http://localhost:5000/api/products", {
@@ -29,7 +29,7 @@ function HomePage() {
     }
   }
 
-  // ✅ Fetch products on component mount
+  // Fetch products on component mount
   useEffect(() => {
     getAllProducts();
   }, []);
@@ -41,7 +41,7 @@ function HomePage() {
           Current Products <Rocket size={18} />
         </h2>
 
-        {/* ✅ Grid container for the products */}
+        {/*  Grid container for the products */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {products.length > 0 &&
             products.map((product) => (
@@ -55,7 +55,7 @@ function HomePage() {
         </div>
       </div>
 
-      {/* ✅ Confirm Delete Modal */}
+      {/*  Confirm Delete Modal */}
       {showModal && (
         <ConfirmModal
           setShowModal={setShowModal}

@@ -12,7 +12,8 @@ function ConfirmModal({ setShowModal, productId, getAllProducts }) {
 
       if (response.ok) {
         console.log("Product Deleted Successfully!");
-        // ✅ Refresh the product list
+        
+        // Refresh the product list
         getAllProducts();
         setShowModal(false);
       } else {
