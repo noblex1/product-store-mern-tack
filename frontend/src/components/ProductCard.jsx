@@ -3,8 +3,11 @@ import { PenBox, Trash2 } from "lucide-react";
 function ProductCard({ key, product, setShowModal, setProductId }) {
 
 function handleDeleteProduct(id){
-    setShowModal(true)
-    setProductId(id)
+    setShowModal(true);
+    setProductId(id);
+
+    //refresh products after delete
+
 }
 
   return (
@@ -26,12 +29,12 @@ function handleDeleteProduct(id){
             <div className="flex space-x-2 mt-2">
               <PenBox
                 size={18}
-                className="p-1 mb-1 bg-blue-400 text-black rounded"
+                className="p-1 bg-blue-400 text-black rounded"
               />
 
                 <Trash2
                   size={18}
-                  className="p-1 mb-1 bg-red-300 text-black rounded"
+                  className="p-1 bg-red-300 text-black rounded"
                   onClick={() => handleDeleteProduct(product?._id)}
                 />
             </div>

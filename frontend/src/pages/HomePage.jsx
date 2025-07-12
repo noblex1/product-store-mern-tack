@@ -8,25 +8,28 @@ function HomePage() {
   const [showModal, setShowModal] = useState(false);
   const [productId, setProductId] = useState(null);
 
-  // Function that fetches all products from the database
+  // ✅ Fetch all products from backend
   async function getAllProducts() {
-    // Use the javaScript fetch method
-    const response = await fetch("http://localhost:5000/api/products", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    try {
+      const response = await fetch("http://localhost:5000/api/products", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    // Check if the response is ok
-    if (response.ok) {
-      const data = await response.json();
-      setProducts(data.data);
-    } else {
-      console.error("Failed to fetch products");
+      if (response.ok) {
+        const data = await response.json();
+        setProducts(data.data);
+      } else {
+        console.error("Failed to fetch products");
+      }
+    } catch (error) {
+      console.error("Error fetching products:", error);
     }
   }
 
+  // ✅ Fetch products on component mount
   useEffect(() => {
     getAllProducts();
   }, []);
@@ -34,13 +37,12 @@ function HomePage() {
   return (
     <div className="h-screen m-0 overflow-auto">
       <div className="w-[90%] mx-auto">
-        <h2 className="text-center flex justify-center items-center">
-          Current Products
-          <Rocket size={18} />
+        <h2 className="text-center flex justify-center items-center gap-2 font-bold text-xl mb-4">
+          Current Products <Rocket size={18} />
         </h2>
 
-        {/**Grid container for the products */}
-        <div className="border-green-500 grid grid-cols-3 gap-4">
+        {/* ✅ Grid container for the products */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {products.length > 0 &&
             products.map((product) => (
               <ProductCard
@@ -52,8 +54,14 @@ function HomePage() {
             ))}
         </div>
       </div>
+
+      {/* ✅ Confirm Delete Modal */}
       {showModal && (
-        <ConfirmModal setShowModal={setShowModal} productId={productId} />
+        <ConfirmModal
+          setShowModal={setShowModal}
+          productId={productId}
+          getAllProducts={getAllProducts}
+        />
       )}
     </div>
   );
