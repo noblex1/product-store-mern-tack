@@ -1,19 +1,19 @@
-import { Button } from "@radix-ui/themes";
-import React, { useState } from "react";
+import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import { Route, Routes } from "react-router-dom";
-import Homepage from './pages/HomePage.jsx';
-import CreatePage from './pages/CreatePage.jsx';
+import Homepage from "./pages/HomePage";
+import CreatePage from "./pages/CreatePage";
 import { Toaster } from "sonner";
 import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 
 function App() {
   const [theme, setTheme] = useState("light");
+  const isDarkMode = theme === "dark";
 
   return (
-    <Theme appearance={theme}> {/* ✅ Theme wrapper here */}
-      <Navbar toggleTheme={() => setTheme(theme === "light" ? "dark" : "light")} />
+    <Theme appearance={theme}>
+      <Navbar toggleTheme={() => setTheme(isDarkMode ? "light" : "dark")} isDarkMode={isDarkMode} />
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/create-products" element={<CreatePage />} />

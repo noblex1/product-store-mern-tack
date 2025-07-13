@@ -41,7 +41,7 @@ function CreatePage() {
           imageUrl: "",
           description: "",
         });
-        setTimeout(() => navigate("/"), 1000); // redirect to home
+        setTimeout(() => navigate("/"), 1000);
       } else {
         toast.error("❌ Failed to create product.");
       }
@@ -52,51 +52,58 @@ function CreatePage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-8 px-4">
-      <h2 className="text-2xl font-bold mb-6 text-center">Create New Product</h2>
-      <form className="space-y-4" onSubmit={handleSubmit}>
-        <TextField.Root
-          placeholder="Product name"
-          value={product.name}
-          onChange={(e) => setProduct({ ...product, name: e.target.value })}
-          required
-        />
+    <div className="min-h-screen py-12 px-4 bg-white dark:bg-gray-900">
+      <div className="max-w-2xl mx-auto bg-gray-100 dark:bg-gray-800 p-8 rounded-xl shadow-md transition-colors duration-300">
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-gray-100">
+          Create New Product
+        </h2>
 
-        <TextField.Root
-          type="number"
-          placeholder="Price"
-          value={product.price}
-          onChange={(e) => setProduct({ ...product, price: e.target.value })}
-          required
-        />
+        <form className="space-y-4" onSubmit={handleSubmit}>
+          <TextField.Root
+            placeholder="Product name"
+            value={product.name}
+            onChange={(e) => setProduct({ ...product, name: e.target.value })}
+            required
+          />
 
-        <TextField.Root
-          type="number"
-          placeholder="Stock"
-          value={product.stock}
-          onChange={(e) => setProduct({ ...product, stock: e.target.value })}
-          required
-        />
+          <TextField.Root
+            type="number"
+            placeholder="Price"
+            value={product.price}
+            onChange={(e) => setProduct({ ...product, price: e.target.value })}
+            required
+          />
 
-        <TextField.Root
-          placeholder="Image URL"
-          value={product.imageUrl}
-          onChange={(e) => setProduct({ ...product, imageUrl: e.target.value })}
-        />
+          <TextField.Root
+            type="number"
+            placeholder="Stock"
+            value={product.stock}
+            onChange={(e) => setProduct({ ...product, stock: e.target.value })}
+            required
+          />
 
-        <TextArea
-          placeholder="Product description"
-          rows={5}
-          value={product.description}
-          onChange={(e) =>
-            setProduct({ ...product, description: e.target.value })
-          }
-        />
+          <TextField.Root
+            placeholder="Image URL"
+            value={product.imageUrl}
+            onChange={(e) =>
+              setProduct({ ...product, imageUrl: e.target.value })
+            }
+          />
 
-        <Button type="submit" color="blue" className="w-full">
-          Create Product
-        </Button>
-      </form>
+          <TextArea
+            placeholder="Product description"
+            rows={5}
+            value={product.description}
+            onChange={(e) =>
+              setProduct({ ...product, description: e.target.value })
+            }
+          />
+
+          <Button type="submit" className="w-full mt-4">
+            Create Product
+          </Button>
+        </form>
+      </div>
     </div>
   );
 }

@@ -1,16 +1,17 @@
-import { PlusIcon, SunIcon, ShoppingCart } from "lucide-react";
+import { PlusIcon, SunIcon, MoonIcon, ShoppingCart } from "lucide-react";
 import React from 'react';
 import { Link } from "react-router-dom";
 
-function Navbar({ toggleTheme }) {
+function Navbar({ toggleTheme, isDarkMode }) {
   return (
-    <div className="w-full bg-blue-500 py-3 shadow-md">
-      <div className="flex items-center justify-between max-w-7xl mx-auto px-4">
+    <header className="w-full py-3 shadow-md bg-white dark:bg-gray-900 border-b border-gray-300 dark:border-gray-700 transition-colors">
+      <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
+        
         {/* Brand Title */}
         <Link to="/">
-          <div className="flex space-x-2 items-center">
-            <h2 className="text-white text-xl font-bold">Product Store</h2>
-            <ShoppingCart />
+          <div className="flex items-center space-x-2">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">Product Store</h2>
+            <ShoppingCart className="text-gray-800 dark:text-gray-200" />
           </div>
         </Link>
 
@@ -19,17 +20,21 @@ function Navbar({ toggleTheme }) {
           <Link to="/create-products">
             <PlusIcon
               size={20}
-              className="w-6 h-6 p-1 bg-gray-700 text-white rounded-full shadow-md hover:scale-105 transition-transform"
+              className="w-8 h-8 p-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-full transition-transform hover:scale-105 shadow"
+              title="Add Product"
             />
           </Link>
-          <SunIcon
-            size={20}
+
+          <button
             onClick={toggleTheme}
-            className="cursor-pointer w-6 h-6 p-1 bg-gray-700 text-white rounded-full shadow-md hover:scale-105 transition-transform"
-          />
+            title="Toggle Theme"
+            className="w-8 h-8 p-1.5 bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-white rounded-full transition-transform hover:scale-105 shadow"
+          >
+            {isDarkMode ? <SunIcon size={20} /> : <MoonIcon size={20} />}
+          </button>
         </div>
       </div>
-    </div>
+    </header>
   );
 }
 
