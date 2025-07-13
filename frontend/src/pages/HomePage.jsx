@@ -8,8 +8,8 @@ function HomePage() {
   const [showModal, setShowModal] = useState(false);
   const [productId, setProductId] = useState(null);
 
-  //  Fetch all products from backend
-  async function getAllProducts() {
+  // Fetch all products from backend
+  async function refreshProducts() {
     try {
       const response = await fetch("http://localhost:5000/api/products", {
         method: "GET",
@@ -29,9 +29,8 @@ function HomePage() {
     }
   }
 
-  // Fetch products on component mount
   useEffect(() => {
-    getAllProducts();
+    refreshProducts();
   }, []);
 
   return (
@@ -41,7 +40,6 @@ function HomePage() {
           Current Products <Rocket size={18} />
         </h2>
 
-        {/*  Grid container for the products */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {products.length > 0 &&
             products.map((product) => (
@@ -50,17 +48,17 @@ function HomePage() {
                 product={product}
                 setShowModal={setShowModal}
                 setProductId={setProductId}
+                refreshProducts={refreshProducts} // ✅ Fixed prop name
               />
             ))}
         </div>
       </div>
 
-      {/*  Confirm Delete Modal */}
       {showModal && (
         <ConfirmModal
           setShowModal={setShowModal}
           productId={productId}
-          getAllProducts={getAllProducts}
+          refreshProducts={refreshProducts} // ✅ Consistent prop name
         />
       )}
     </div>

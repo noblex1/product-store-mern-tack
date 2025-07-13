@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import { Button, TextField, TextArea } from "@radix-ui/themes";
+import { useState } from "react";
+import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 
 function CreatePage() {
-  const navigate = useNavigate()
-  const [newProduct, setNewProduct] = useState({
+  const [product, setProduct] = useState({
     name: "",
     price: "",
     stock: "",
@@ -11,118 +12,91 @@ function CreatePage() {
     description: "",
   });
 
-  const submitProduct = async (e) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const serializedData = {
-      name: newProduct.name,
-      price: parseFloat(newProduct.price),
-      stock: Number(newProduct.stock),
-      imageUrl: newProduct.imageUrl,
-      description: newProduct.description,
-    };
-
     try {
-      // Create the fetch method
       const response = await fetch("http://localhost:5000/api/products", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(serializedData),
+        body: JSON.stringify({
+          name: product.name,
+          price: Number(product.price),
+          stock: Number(product.stock),
+          imageUrl: product.imageUrl,
+          description: product.description,
+        }),
       });
 
       if (response.ok) {
-        const data = await response.json(); 
-        console.log("Product created", data.product)
-        navigate("/")
+        toast.success("✅ Product created successfully!");
+        setProduct({
+          name: "",
+          price: "",
+          stock: "",
+          imageUrl: "",
+          description: "",
+        });
+        setTimeout(() => navigate("/"), 1000); // redirect to home
+      } else {
+        toast.error("❌ Failed to create product.");
       }
     } catch (error) {
-      console.log("Product submission error", error);
+      console.error("Error creating product:", error);
+      toast.error("⚠️ Server error");
     }
   };
 
   return (
-    <div className="w-full h-screen">
-      <div className="p-6 max-w-xl mx-auto">
-        <h2 className="text-center font-bold">Create a new product</h2>
+    <div className="max-w-2xl mx-auto mt-8 px-4">
+      <h2 className="text-2xl font-bold mb-6 text-center">Create New Product</h2>
+      <form className="space-y-4" onSubmit={handleSubmit}>
+        <TextField.Root
+          placeholder="Product name"
+          value={product.name}
+          onChange={(e) => setProduct({ ...product, name: e.target.value })}
+          required
+        />
 
-        <form
-          onSubmit={submitProduct}
-          className="dark:bg-gray-950 p-4 rounded border border-gray-500/25 shadow-lg"
-        >
-          <div className="w-full mb-2">
-            <input
-              type="text"
-              id="name"
-              placeholder="Enter product name"
-              value={newProduct.name}
-              onChange={(e) =>
-                setNewProduct({ ...newProduct, name: e.target.value })
-              }
-              className="border border-gray-500/25 w-full px-4 py-2 rounded"
-            />
-          </div>
+        <TextField.Root
+          type="number"
+          placeholder="Price"
+          value={product.price}
+          onChange={(e) => setProduct({ ...product, price: e.target.value })}
+          required
+        />
 
-          <div className="w-full mb-2">
-            <input
-              type="float"
-              id="price"
-              min={0}
-              value={newProduct.price}
-              onChange={(e) =>
-                setNewProduct({ ...newProduct, price: e.target.value })
-              }
-              placeholder="Enter product price"
-              className="border border-gray-500/25 w-full px-4 py-2 rounded"
-            />
-          </div>
+        <TextField.Root
+          type="number"
+          placeholder="Stock"
+          value={product.stock}
+          onChange={(e) => setProduct({ ...product, stock: e.target.value })}
+          required
+        />
 
-          <div className="w-full mb-2">
-            <input
-              type="url"
-              id="imageUrl"
-              value={newProduct.imageUrl}
-              onChange={(e) =>
-                setNewProduct({ ...newProduct, imageUrl: e.target.value })
-              }
-              placeholder="Enter product image url"
-              className="border border-gray-500/25 w-full px-4 py-2 rounded"
-            />
-          </div>
+        <TextField.Root
+          placeholder="Image URL"
+          value={product.imageUrl}
+          onChange={(e) => setProduct({ ...product, imageUrl: e.target.value })}
+        />
 
-          <div className="w-full mb-2">
-            <input
-              type="number"
-              id="stock"
-              min={0}
-              value={newProduct.stock}
-              onChange={(e) =>
-                setNewProduct({ ...newProduct, stock: e.target.value })
-              }
-              placeholder="Enter product stock"
-              className="border border-gray-500/25 w-full px-4 py-2 rounded"
-            />
-          </div>
+        <TextArea
+          placeholder="Product description"
+          rows={5}
+          value={product.description}
+          onChange={(e) =>
+            setProduct({ ...product, description: e.target.value })
+          }
+        />
 
-          <textarea
-            className="w-full border border-gray-500/25 outline-none px-4 py-2 mb-2"
-            rows={5}
-            placeholder="Enter product description"
-            value={newProduct.description}
-            onChange={(e) =>
-              setNewProduct({ ...newProduct, description: e.target.value })
-            }
-          ></textarea>
-
-          <button
-            type="submit"
-            className="px-4 py-2 rounded shadow-lg bg-green-600 font-bold hover:bg-green-800 cursor-pointer"
-          >
-            Create Product
-          </button>
-        </form>
-      </div>
+        <Button type="submit" color="blue" className="w-full">
+          Create Product
+        </Button>
+      </form>
     </div>
   );
 }
