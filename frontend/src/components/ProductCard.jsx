@@ -6,13 +6,14 @@ import { toast } from "sonner";
 function ProductCard({ product, setShowModal, setProductId, refreshProducts }) {
   const [updatedProduct, setUpdatedProduct] = useState(product);
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false); // ✅ Control dialog visibility
 
   function handleDeleteProduct(id) {
     setShowModal(true);
     setProductId(id);
   }
 
-  async function updateProductById(id, closeDialog) {
+  async function updateProductById(id) {
     try {
       setLoading(true);
       const response = await fetch(`http://localhost:5000/api/products/${id}`, {
@@ -30,11 +31,9 @@ function ProductCard({ product, setShowModal, setProductId, refreshProducts }) {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        toast.success("Product updated successfully!");
         await refreshProducts();
-        closeDialog(); // Close modal
-        return data;
+        toast.success("Product updated successfully!");
+        setOpen(false); // ✅ Close the dialog manually
       } else {
         toast.error("Failed to update product.");
       }
@@ -62,8 +61,8 @@ function ProductCard({ product, setShowModal, setProductId, refreshProducts }) {
         </p>
 
         <div className="flex items-center gap-3 mt-3">
-          {/* Edit Button with Modal */}
-          <Dialog.Root>
+          {/* ✅ Controlled Dialog */}
+          <Dialog.Root open={open} onOpenChange={setOpen}>
             <Dialog.Trigger>
               <PenBox
                 size={18}
@@ -121,19 +120,10 @@ function ProductCard({ product, setShowModal, setProductId, refreshProducts }) {
               </Flex>
 
               <Flex justify="end" gap="3" mt="4">
-                <Dialog.Close>
-                  <Button variant="soft" color="gray" disabled={loading}>
-                    Cancel
-                  </Button>
-                </Dialog.Close>
-                <Button
-                  onClick={() =>
-                    updateProductById(product._id, () =>
-                      document.activeElement?.blur()
-                    )
-                  }
-                  disabled={loading}
-                >
+                <Button variant="soft" color="gray" onClick={() => setOpen(false)} disabled={loading}>
+                  Cancel
+                </Button>
+                <Button onClick={() => updateProductById(product._id)} disabled={loading}>
                   {loading ? "Updating..." : "Update"}
                 </Button>
               </Flex>

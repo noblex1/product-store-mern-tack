@@ -4,18 +4,20 @@ import { Link } from "react-router-dom";
 
 function Navbar({ toggleTheme, isDarkMode }) {
   return (
-    <header className="w-full py-3 shadow-md bg-white dark:bg-gray-900 border-b border-gray-300 dark:border-gray-700 transition-colors">
+    <header className="w-full fixed top-0 z-50 py-3 shadow-md bg-white dark:bg-gray-900 border-b border-gray-300 dark:border-gray-700 transition-colors">
       <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
         
         {/* Brand Title */}
         <Link to="/">
           <div className="flex items-center space-x-2">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">Product Store</h2>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+              Product Store
+            </h2>
             <ShoppingCart className="text-gray-800 dark:text-gray-200" />
           </div>
         </Link>
 
-        {/* Icons */}
+        {/* Action Icons */}
         <div className="flex items-center gap-3">
           <Link to="/create-products">
             <PlusIcon
