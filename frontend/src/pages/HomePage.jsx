@@ -1,4 +1,5 @@
 import { Rocket } from "lucide-react";
+import { API_BASE_URL } from "../config";
 import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import ConfirmModal from "../components/ConfirmModal";
@@ -11,7 +12,7 @@ function HomePage() {
   // Fetch all products from backend
   async function refreshProducts() {
     try {
-      const response = await fetch("http://localhost:5000/api/products", {
+      const response = await fetch(`${API_BASE_URL}/api/products`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

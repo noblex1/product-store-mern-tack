@@ -124,7 +124,23 @@ const app = express();
 
 app.use(express.json()); // Middleware to parse JSON bodies
 
-app.use(cors("*"))
+// Configure CORS to allow frontend on Render and local dev
+const allowedOrigins = [
+  process.env.FRONTEND_URL || '',
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true); // allow non-browser clients
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error('CORS not allowed for this origin'));
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: false,
+}));
 app.use('/api/products', productRouter);
 
 
@@ -133,7 +149,7 @@ app.get("/", (req, res) => {
   res.send("Hello from the backend server!");
 });
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 5000
 
 // Start the server
 app.listen(PORT, () => {

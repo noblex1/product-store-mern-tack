@@ -1,11 +1,12 @@
 import { Button } from "@radix-ui/themes";
 import React from "react";
 import { toast } from "sonner";
+import { API_BASE_URL } from "../config";
 
 function ConfirmModal({ setShowModal, productId, refreshProducts }) {
   async function deleteProduct(id) {
     try {
-      const response = await fetch(`http://localhost:5000/api/products/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/products/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

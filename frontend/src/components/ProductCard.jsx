@@ -2,6 +2,7 @@ import { Button, Dialog, Flex, TextArea, TextField } from "@radix-ui/themes";
 import { PenBox, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { API_BASE_URL } from "../config";
 
 function ProductCard({ product, setShowModal, setProductId, refreshProducts }) {
   const [updatedProduct, setUpdatedProduct] = useState(product);
@@ -16,7 +17,7 @@ function ProductCard({ product, setShowModal, setProductId, refreshProducts }) {
   async function updateProductById(id) {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:5000/api/products/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/products/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

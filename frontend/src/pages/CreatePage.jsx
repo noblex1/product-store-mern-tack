@@ -2,6 +2,7 @@ import { Button, TextField, TextArea } from "@radix-ui/themes";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 
 function CreatePage() {
   const [product, setProduct] = useState({
@@ -18,7 +19,7 @@ function CreatePage() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/api/products", {
+      const response = await fetch(`${API_BASE_URL}/api/products`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
